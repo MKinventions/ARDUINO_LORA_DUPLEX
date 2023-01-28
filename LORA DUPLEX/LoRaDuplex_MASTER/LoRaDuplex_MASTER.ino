@@ -8,8 +8,8 @@
   Uses readString() from Stream class to read payload. The Stream class'
   timeout may affect other functuons, like the radio's callback. For an
 
-  created 28 April 2017
-  by Tom Igoe
+  created 28 JAN 2023
+  by Madhan Kumar Chiruguri
 */
 #include <SPI.h>              // include libraries
 #include <LoRa.h>
@@ -277,11 +277,14 @@ void onReceive(int packetSize) {
   display.print("JOY-X:"); display.println(joyx_state);
   display.setCursor(0, 48);//(COL, ROW)
   display.print("JOY-Y:"); display.println(joyy_state);
-  
+
+
+  String led1_state = (sw1_state == 1)?"ON":"OFF";
+  String led2_state = (sw2_state == 1)?"ON":"OFF";
   display.setCursor(65, 40);//(COL, ROW)
-  display.print("|SW1:"); display.println(sw1_state);
+  display.print("|LED1:"); display.println(led1_state);
   display.setCursor(65, 48);//(COL, ROW)
-  display.print("|SW2:"); display.println(sw2_state);
+  display.print("|LED2:"); display.println(led2_state);
   display.display();
 
 }
