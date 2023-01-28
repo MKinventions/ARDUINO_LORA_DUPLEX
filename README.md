@@ -10,7 +10,7 @@ D15-->SWITCH1
 
 D2--->LORA-DIO0
 
-D4--->SWITCH2
+D4--->
 
 RX2-->
 
@@ -32,7 +32,7 @@ D22-->SCL/OLED
 
 D23-->LORA-MOSI
 
-D13-->
+D13-->SWITCH2
 
 D12-->
 
@@ -42,9 +42,9 @@ D27-->
 
 D26-->
 
-D33-->DT(ROTARY)
+D33-->POT1
 
-D32-->CLK(ROTARY)
+D32-->POT2
 
 D35(ADC1_7)-->JOYY
 
