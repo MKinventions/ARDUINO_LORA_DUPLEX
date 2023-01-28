@@ -8,8 +8,8 @@
   Uses readString() from Stream class to read payload. The Stream class'
   timeout may affect other functuons, like the radio's callback. For an
 
-  created 28 April 2017
-  by Tom Igoe
+  created 28 JAN 2023
+  by Madhan Kumar Chiruguri
 */
 #include <SPI.h>              // include libraries
 #include <LoRa.h>
@@ -21,9 +21,21 @@
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
- 
-#define LED1 15
-#define LED2 22
+#define VOLTAGE_SENSOR 12 
+// Floats for ADC voltage & Input voltage
+float adc_voltage = 0.0;
+float in_voltage = 0.0;
+// Floats for resistor values in divider (in ohms)
+float R1 = 30000.0;
+float R2 = 7500.0;
+// Float for Reference Voltage
+float ref_voltage = 3.3; 
+// Integer for ADC value
+int adc_value = 0;
+
+
+#define LED1 32
+#define LED2 33
 
 const int csPin = 5;          // LoRa radio chip select
 const int resetPin = 14;       // LoRa radio reset
@@ -89,15 +101,22 @@ StaticJsonDocument<1024> doc;
   // Read temperature as Fahrenheit (isFahrenheit = true)
 //  float fah = dht.readTemperature(true);
   
-
+  adc_value = analogRead(VOLTAGE_SENSOR);
+  // Determine voltage at ADC input
+  adc_voltage  = (adc_value * ref_voltage) / 4095;
+  // Calculate voltage at divider input
+  in_voltage = adc_voltage / (R2 / (R1 + R2)) ;
+//  Serial.print("Input Voltage = ");
+//  Serial.println(in_voltage, 2);
+  
   doc["sw1_state"] = sw1_state;
   doc["sw2_state"] = sw2_state;
   doc["joyx_state"] = joyx_state;
   doc["joyy_state"] = joyy_state;
   doc["temp"] = temp;
-  doc["humi"] = humi;
+  doc["humi"] =  humi;
   doc["distance"] = (int)random(5) + 30.50;
-  doc["volt"] = (double)random(2)+ 3.30;
+  doc["volt"] = in_voltage;
   // Add an array.
   //
   JsonArray data = doc.createNestedArray("cordinates");
